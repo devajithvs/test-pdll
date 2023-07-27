@@ -15,7 +15,6 @@
 
 #include <iostream>
 
-
 using namespace mlir;
 using namespace llvm;
 #include "testPDLL.h.inc"
@@ -24,8 +23,7 @@ using namespace llvm;
 // Query Parser
 //===----------------------------------------------------------------------===//
 
-mlir::LogicalResult testPDLLMain(int argc, char **argv,
-                                        MLIRContext &context) {
+mlir::LogicalResult testPDLLMain(int argc, char **argv, MLIRContext &context) {
   // Set up the input file.
   std::string errorMessage;
   auto file = openInputFile("testPDLL.mlir", &errorMessage);
@@ -59,7 +57,6 @@ mlir::LogicalResult testPDLLMain(int argc, char **argv,
 }
 
 int main() {
-    std::cout << "Hello World!";
-    LogicalResult testPDLLMain(int argc, char **argv, MLIRContext &context);
-    return 0;
+  LogicalResult testPDLLMain(int argc, char **argv, MLIRContext &context);
+  return 0;
 }

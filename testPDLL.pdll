@@ -1,0 +1,2 @@
+/// A simple pattern that matches and replaces an operation.
+Pattern TestSimplePattern => replace op<test.simple> with op<test.success>;

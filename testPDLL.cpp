@@ -1,23 +1,20 @@
-#include "llvm/Support/SourceMgr.h"
-
-#include "mlir/Pass/Pass.h"
-#include "mlir/Pass/PassManager.h"
-#include "mlir/Transforms/GreedyPatternRewriteDriver.h"
-
 #include "mlir/Dialect/PDL/IR/PDL.h"
 #include "mlir/Dialect/PDLInterp/IR/PDLInterp.h"
-#include "mlir/Interfaces/CastInterfaces.h"
-#include "mlir/Parser/Parser.h"
-
+#include "mlir/IR/Dialect.h"
+#include "mlir/IR/MLIRContext.h"
+#include "mlir/InitAllDialects.h"
+#include "mlir/Pass/Pass.h"
+#include "mlir/Pass/PassManager.h"
 #include "mlir/Support/FileUtilities.h"
 #include "mlir/Support/LogicalResult.h"
 #include "mlir/Tools/ParseUtilities.h"
-
+#include "mlir/Transforms/GreedyPatternRewriteDriver.h"
+#include "testPDLL.h.inc"
+#include "llvm/Support/SourceMgr.h"
 #include <iostream>
 
 using namespace mlir;
 using namespace llvm;
-#include "testPDLL.h.inc"
 
 //===----------------------------------------------------------------------===//
 // Query Parser
@@ -46,6 +43,8 @@ mlir::LogicalResult testPDLLMain(int argc, char **argv, MLIRContext &context) {
 
   Operation *rootOp = opRef.get();
 
+  rootOp->dump();
+
   RewritePatternSet patternList(&context);
   populateGeneratedPDLLPatterns(patternList);
   FrozenRewritePatternSet patterns = std::move(patternList);
@@ -56,7 +55,11 @@ mlir::LogicalResult testPDLLMain(int argc, char **argv, MLIRContext &context) {
   return success();
 }
 
-int main() {
-  LogicalResult testPDLLMain(int argc, char **argv, MLIRContext &context);
-  return 0;
+int main(int argc, char **argv) {
+
+  DialectRegistry registry;
+  registerAllDialects(registry);
+  MLIRContext context(registry);
+
+  return failed(testPDLLMain(argc, argv, context));
 }

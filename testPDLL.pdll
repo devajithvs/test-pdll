@@ -1,2 +1,8 @@
 /// A simple pattern that matches and replaces an operation.
-Pattern TestSimplePattern => replace op<test.simple> with op<test.success>;
+Pattern TestSimplePattern => replace op<hello.spanish> with op<test.success>;
+
+/// A simple pattern that removes an operation.
+Pattern TestRemovePattern {
+  let root = op<hello.hello>;
+  erase root;
+}

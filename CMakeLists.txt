@@ -33,7 +33,9 @@ add_executable(testPDLL testPDLL.cpp)
 
 get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
 # Link against LLVM and MLIR libraries
-target_link_libraries(testPDLL PRIVATE MLIRIR MLIRParser MLIRTransforms ${dialect_libs})
+target_link_libraries(testPDLL PRIVATE MLIRIR MLIRParser MLIRTransforms MLIRPass MLIRTransforms MLIRRewrite MLIRTransformUtils ${dialect_libs})
 
 add_dependencies(testPDLL generate_testPDLL_h_inc)
 target_include_directories(testPDLL PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_compile_options(testPDLL PRIVATE -fno-rtti)
+

@@ -1,8 +1,33 @@
-/// A simple pattern that matches and replaces an operation.
-Pattern TestSimplePattern => replace op<hello.spanish> with op<test.success>;
+// Pattern HasOneArgument {
+//   // A single entity constraint can be applied via the variable argument list.
+//   let value: Value;
+//   let op = op<>(value);
+//   erase op;
+// }
 
-/// A simple pattern that removes an operation.
-Pattern TestRemovePattern {
-  let root = op<hello.hello>;
-  erase root;
+// Constraint HasNoUseOfCnstr(op: Op) [{
+//   return mlir::success(op->use_empty());
+// }];
+
+// Pattern HasNoUseOf {
+//   let op = op<>;
+//   HasNoUseOfCnstr(op);
+//   erase op;
+// }
+
+Constraint IsConstantCnstr(op: Op) [{
+  return mlir::success(op->hasTrait<mlir::OpTrait::ConstantLike>());
+}];
+
+Pattern IsConstant {
+  let op = op<>;
+  IsConstantCnstr(op);
+  erase op;
 }
+
+
+// /// A simple pattern that removes an operation.
+// Pattern TestRemovePattern {
+//   let root = op<hello.hello>;
+//   erase root;
+// }
